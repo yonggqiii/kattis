@@ -8,7 +8,10 @@ To get started, you can head to any of the subdirectories which are named
 after the problem ID of the kattis problem.
 
 Download the template file, named `problemId_template.py`. Then, you can
-be on your way! The recommended solutions to the problem using the template
+be on your way! You can then submit your complete solutions to Kattis for
+testing directly.
+
+The recommended solutions to the problem using the template
 can be found in `problemId_solution.py`. 
 
 Of course, I am also attempting these problems on my own. You can find my
