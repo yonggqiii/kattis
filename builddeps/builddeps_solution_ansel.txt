@@ -1,0 +1,58 @@
+#Build dependencies
+#Kattis problem @ https://nus.kattis.com/sessions/dho8uw/problems/builddeps
+#AnselLim
+
+n=int(input())
+from collections import defaultdict
+AL=defaultdict(list)
+visited=defaultdict(bool)
+
+for _ in range(n):
+    file,dependencies=input().split(":")
+    if dependencies: #If there are any dependencies. (Some files don't have dependencies.)
+        for item in dependencies.split():
+            AL[item].append(file) #Remember this is a directed graph
+    visited[file]=False #Initialize every file's visited status as False.
+c=input() #changed file #We will do toposort from here.
+
+import sys
+sys.setrecursionlimit(10**9) #Particularly important for DFS.
+
+visited_list = []
+vertices=visited.keys()
+
+#This dfs only visits from a source u
+def dfs_visit(u):
+    global AL, visited, visited_list
+    visited[u] = True
+    for v in AL[u]:
+        if not visited[v]:
+            dfs_visit(v)
+    visited_list.append(u)  # New Line
+
+#Generalized dfs for every single unvisited vertices. Eventually traverses the entire graph
+def dfs():
+    global visited, vertices
+    for source in vertices:
+        if not visited[source]:
+            dfs_visit(source)
+
+#Generalized toposort for the entire graph, eventually traverses the entire graph.
+def toposort():
+    global AL, visited, visited_list, vertices
+    dfs()#Triggers the generalized dfs
+    return list(reversed(visited_list))  # REVERSE THE STACK! to get toposort in the right order.
+
+#Toposort, but only from the sourc.e 
+def toposort_only_from_source():
+    global AL, visited, visited_list, vertices
+    dfs_visit(c) #Source is the specified vertex, c.#Only DFS from the specified source.
+    return list(reversed(visited_list))  # REVERSE THE STACK! to get toposort in the right order.
+
+result=toposort_only_from_source() 
+
+'''
+result2=result[result.index(c):]
+'''
+
+print(*result,sep="\n")
